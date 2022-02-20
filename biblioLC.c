@@ -179,7 +179,7 @@ void supprimer_ouvrage(Biblio *b, int num, char *titre, char *auteur)
 
 void fusion(Biblio *b1, Biblio *b2)
 {
-    if ((b1 == NULL) && (b2 == NULL))
+    if ((b1 == NULL) || (b2 == NULL))
     {
         return;
     }
