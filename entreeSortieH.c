@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "entreeSortieH.h"
 // h
-// test
+// testtest
 BiblioH *charger_n_entrees_hashtable(char *nomfic, int n)
 {
     char buff[BUFFER_SIZE];
