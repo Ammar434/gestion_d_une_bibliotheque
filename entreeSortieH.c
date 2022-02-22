@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "entreeSortieH.h"
-
+// h
 BiblioH *charger_n_entrees_hashtable(char *nomfic, int n)
 {
     char buff[BUFFER_SIZE];
