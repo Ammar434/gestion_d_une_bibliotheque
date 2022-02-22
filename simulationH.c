@@ -13,7 +13,7 @@ int main()
     char *nom_fichier = "GdeBiblio.txt";
     FILE *file_recherche_hashtable = fopen("rechercherHashtable.txt", "w");
     int k = 0;
-    for (int i = 1000; i < 50000; i++)
+    for (int i = 1000; i < 50000; i += 100)
     {
         biblio_hash = charger_n_entrees_hashtable(nom_fichier, i);
         temps_initial = clock();
