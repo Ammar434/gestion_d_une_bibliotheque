@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "entreeSortieH.h"
-// fsd
+
 void menu()
 {
     printf("0 - Sortie du programme\n");
@@ -24,64 +24,9 @@ int main(int argc, char **argv)
         printf("Erreur\n");
         return 1;
     }
-
     int arg = atoi(argv[2]);
-
-    // BiblioH *b2 = recherche_exemplaires_hashtable(b);
-    // affichage_biblio_hashtable(b2);
-    // affichage_livre_hashtable(recherche_ouvrage_num_hashtable(b, 4));
-    // affichage_livre_hashtable(recherche_livres_auteur_hashtable(b, ('));
-    // printf("%d\n", m(5));
-
-    // Lecture d'un fichier
-    // BiblioH *b1 = charger_n_entrees_hashtable(argv[1], arg);
-
-    // affichage d'un livre
-    // int i = 0;
-    // affichage_livre_hashtable((b1->T)[i]);
-
-    // affichage d'une bibliothèque
-    // affichage_biblio_hashtable(b1);
-
-    // liberer une bibliotheque
-    // printf("---------\n");
-    // liberer_biblio(b1);
-    // affichage_biblio_hashtable(b1);
-
-    // recherche d'un ouvrage par son numéro
-    // LivreH *l1 = recherche_ouvrage_num_hashtable(b1, 1);
-    // affichage_livre_hashtable(l1);
-
-    // recherche d'un ouvrage par son titre
-    // LivreH *l2 = recherche_ouvrage_titre_hashtable(b1, "JYBLD");
-    // affichage_livre_hashtable(l2);
-
-    // recherche de tous les livres d'un même auteur
-    // inserer(b1, 10, "allo", "owfrx");
-    // BiblioH *b2 = recherche_livres_auteur_hashtable(b1, "owfrx");
-    // affichage_biblio_hashtable(b2);
-
-    // suppression d'un ouvrage
-    // affichage_biblio_hashtable(b1);
-    // printf("---------\n");
-    // supprimer_ouvrage_hashtable(b1, 3, "KEZXDU", "xdrwv");
-    // affichage_biblio_hashtable(b1);
-
-    // fusion de 2 bibliothèques
-    // BiblioH *b3 = charger_n_entrees_hashtable("GdeBiblio.txt", 5);
-    // fusion_hashtable(b1, b3);
-    // affichage_biblio_hashtable(b1);
-
-    // Recherche ouvrage avec plusieurs exemplaires
-    // inserer_en_tete(b, 10, "KEZXDU", "xdrwv");
-    // Biblio *b4 = recherche_exemplaires(b);
-    // affichage_Biblio(b4);
-
-    // Ecriture d'un fichier
-    // enregistrer_biblio_hashtable(b1, "test.txt");
-
     BiblioH *b = charger_n_entrees_hashtable(argv[1], arg);
-    // affichage_biblio_hashtable(b);
+
     int rep;
     int num;
     int cpt, cpt2, nb1, nb2;
@@ -205,22 +150,12 @@ int main(int argc, char **argv)
             if (cpt == 1)
             {
                 BiblioH *bauteur = recherche_livres_auteur_hashtable(b, auteur);
-                if (b == NULL)
-                {
-
-                    printf("Les ouvrages de l'auteur selectionne n'existent pas dans la bibliotheque\n");
-                    printf("\n");
-                    printf("-------------------------------------------------------------------------------------------\n");
-                    printf("\n");
-                }
-                else
-                {
-                    printf("Voici les ouvrages ecrits par %s\n", auteur);
-                    affichage_biblio_hashtable(bauteur);
-                    printf("\n");
-                    printf("-------------------------------------------------------------------------------------------\n");
-                    printf("\n");
-                }
+                printf("Voici les ouvrages ecrits par %s\n", auteur);
+                affichage_biblio_hashtable(bauteur);
+                liberer_biblio(bauteur);
+                printf("\n");
+                printf("-------------------------------------------------------------------------------------------\n");
+                printf("\n");
             }
             else
             {
@@ -256,6 +191,7 @@ int main(int argc, char **argv)
             bexe = recherche_exemplaires_hashtable(b);
             printf("Voici une liste de tous les ouvrages avec plusieurs exemplaires:\n");
             affichage_biblio_hashtable(bexe);
+            liberer_biblio(bexe);
             printf("\n");
             printf("-------------------------------------------------------------------------------------------\n");
             printf("\n");
@@ -281,6 +217,7 @@ int main(int argc, char **argv)
                         printf("Fusion avec succes\n");
                         printf("Affichage des livres\n");
                         affichage_biblio_hashtable(b1);
+                        liberer_biblio(b);
                         b = b1;
                     }
                     else
@@ -309,15 +246,29 @@ int main(int argc, char **argv)
             break;
 
         case 9:
-            printf("Ecriture de la bibliotheque actuelle dans le fichier text.txt\n");
-            enregistrer_biblio_hashtable(b, "text.txt");
-            printf("Ecriture de la bibliotheque dans le fichier text.txt avec succes\n");
-            printf("\n");
-            printf("-------------------------------------------------------------------------------------------\n");
-            printf("\n");
+            printf("Choisissez le nom du fichier.txt que vous voulez créer\n");
+            fgets(buff, BUFFER_SIZE, stdin);
+
+            cpt = sscanf(buff, "%s\n", fichier1);
+            if (cpt == 1)
+            {
+                enregistrer_biblio_hashtable(b, fichier1);
+                printf("Ecriture de la bibliotheque dans le fichier %s.txt avec succes\n", fichier1);
+                printf("\n");
+                printf("-------------------------------------------------------------------------------------------\n");
+                printf("\n");
+            }
+            else
+            {
+                printf("Erreur format\n");
+                printf("\n");
+                printf("-------------------------------------------------------------------------------------------\n");
+                printf("\n");
+            }
+            break;
         }
     } while (rep != 0);
     printf("Merci , et au revoir.\n");
-
+    liberer_biblio(b);
     return 0;
 }

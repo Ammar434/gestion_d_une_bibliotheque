@@ -51,7 +51,7 @@ int main()
     char *nom_fichier = "GdeBiblio.txt";
     FILE *file_recherche_liste = fopen("rechercherListe.txt", "w");
     int k = 0;
-    for (int i = 1000; i < 50000; i += 100)
+    for (int i = 1000; i < 50000; i++)
     {
         biblio_liste = charger_n_entrees(nom_fichier, i);
         temps_initial = clock();

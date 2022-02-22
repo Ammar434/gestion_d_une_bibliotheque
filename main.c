@@ -27,50 +27,10 @@ int main(int argc, char **argv)
     int arg = atoi(argv[2]);
     Biblio *b = charger_n_entrees(argv[1], arg);
 
-    /*jeux de tests
-    // Lecture d'un fichier
-    // Biblio *b = charger_n_entrees("GdeBiblio.txt", 10);
-
-    // affichage d'un livre
-    // affichage_Livre(b->L);
-
-    // affichage d'une bibliothèque
-    // affichage_Biblio(b);
-
-    // recherche d'un ouvrage par son numéro
-    // Livre *l1 = recherche_ouvrage_num(b, 1);
-    // affichage_Livre(l1);
-
-    // recherche d'un ouvrage par son titre
-    // Livre *l2 = recherche_ouvrage_titre(b, "JYBLD");
-    // affichage_Livre(l2);
-
-    // recherche de tous les livres d'un même auteur
-    // inserer_en_tete(b, 10, "allo", "owfrx");
-    // Biblio *b2 = recherche_livres_auteur(b, "owfrx");
-    // affichage_Biblio(b2);
-
-    // suppression d'un ouvrage
-    // supprimer_ouvrage(b, 3, "KEZXDU", "xdrwv");
-    // affichage_Biblio(b);
-
-    // fusion de 2 bibliothèques
-    // Biblio *b3 = charger_n_entrees("GdeBiblio.txt", 5);
-    // fusion(b, b3);
-    // affichage_Biblio(b);
-
-    // Recherche ouvrage avec plusieurs exemplaires
-    // inserer_en_tete(b, 10, "KEZXDU", "xdrwv");
-    // Biblio *b4 = recherche_exemplaires(b);
-    // affichage_Biblio(b4);
-
-    // Ecriture d'un fichier
-    // enregistrer_biblio(b, "test.txt");
-    */
-
     int rep;
     int num;
-    int cpt, cpt2, nb1, nb2;
+    int cpt;
+    int cpt2, nb1, nb2;
     char buff[BUFFER_SIZE];
     char buff2[BUFFER_SIZE];
     char titre[BUFFER_SIZE];
@@ -193,6 +153,7 @@ int main(int argc, char **argv)
                 Biblio *bauteur = recherche_livres_auteur(b, auteur);
                 printf("Voici les ouvrages ecrits par %s\n", auteur);
                 affichage_Biblio(bauteur);
+                liberer_biblio(bauteur);
                 printf("\n");
                 printf("-------------------------------------------------------------------------------------------\n");
                 printf("\n");
@@ -231,6 +192,7 @@ int main(int argc, char **argv)
             bexe = recherche_exemplaires(b);
             printf("Voici une liste de tous les ouvrages avec plusieurs exemplaires:\n");
             affichage_Biblio(bexe);
+            liberer_biblio(bexe);
             printf("\n");
             printf("-------------------------------------------------------------------------------------------\n");
             printf("\n");
@@ -256,6 +218,7 @@ int main(int argc, char **argv)
                         printf("Fusion avec succes\n");
                         printf("Affichage des livres\n");
                         affichage_Biblio(b1);
+                        liberer_biblio(b);
                         b = b1;
                     }
                     else
@@ -307,5 +270,6 @@ int main(int argc, char **argv)
         }
     } while (rep != 0);
     printf("Merci , et au revoir.\n");
+    liberer_biblio(b);
     return 0;
 }

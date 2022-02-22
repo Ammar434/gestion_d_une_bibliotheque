@@ -39,52 +39,43 @@ void liberer_livre(LivreH *l)
     l = NULL;
 }
 
-// a checker
 BiblioH *creer_biblio(int m)
 {
-    BiblioH *biblio = (BiblioH *)malloc(sizeof(BiblioH));
-    LivreH **hash_table = malloc(sizeof(LivreH *) * m);
+    BiblioH *b = (BiblioH *)malloc(sizeof(BiblioH));
+    assert(b);
+    b->T = (LivreH **)malloc(sizeof(LivreH *) * m);
+    assert(b->T);
 
     for (int i = 0; i < m; i++)
     {
-        hash_table[i] = malloc(sizeof(LivreH));
-        hash_table[i] = NULL;
+        b->T[i] = NULL;
     }
-    biblio->nE = 0;
-    biblio->m = m;
-    biblio->T = hash_table;
-    return biblio;
+    b->nE = 0;
+    b->m = m;
+    return b;
 }
 
-// fuite de memoire
 void liberer_biblio(BiblioH *b)
 {
     if (b == NULL)
     {
         return;
     }
-    if (b->T == NULL)
-    {
-        free(b);
-        return;
-    }
 
-    LivreH **hash_table = b->T;
-    LivreH *tmp;
-
-    for (int i = 0; i < b->m; i++)
+    LivreH *tmp = NULL;
+    int i;
+    for (i = 0; i < b->m; i++)
     {
-        if (hash_table[i] != NULL)
+        while (b->T[i])
         {
-            while (hash_table[i] != NULL)
-            {
-                tmp = hash_table[i];
-                hash_table[i] = hash_table[i]->suivant;
-                liberer_livre(tmp);
-            }
+            tmp = (b->T[i])->suivant;
+            liberer_livre(b->T[i]);
+            b->T[i] = tmp;
+            (b->nE)--;
         }
     }
-    // free(b);
+    free(b->T);
+    free(b);
 }
 
 int fonctionHachage(int cle, int m)
@@ -115,10 +106,9 @@ void affichage_livre_hashtable(LivreH *l)
     {
         return;
     }
-    printf("%d %d %s %s\n", l->clef, l->num, l->titre, l->auteur);
+    printf("Num hachage : %d | %d %s %s\n", l->clef, l->num, l->titre, l->auteur);
 }
 
-// a checker mais OK
 void affichage_biblio_hashtable(BiblioH *b)
 {
     if (b == NULL)
@@ -129,12 +119,12 @@ void affichage_biblio_hashtable(BiblioH *b)
     LivreH *l;
     for (int i = 0; i < b->m; i++)
     {
-        if ((b->T)[i] != NULL) //???
+        if ((b->T)[i] != NULL)
         {
             l = (b->T)[i];
             while (l != NULL)
             {
-                printf("Pos %d ", i);
+                printf("Pos %d | ", i);
                 affichage_livre_hashtable(l);
                 l = l->suivant;
             }
@@ -142,7 +132,7 @@ void affichage_biblio_hashtable(BiblioH *b)
         else
         {
             // case contenant NULL
-            printf("Pos %d\t--------------\n", i);
+            printf("Pos %d |\t--------------\n", i);
         }
     }
 }
@@ -298,25 +288,6 @@ BiblioH *recherche_exemplaires_hashtable(BiblioH *b)
             }
             livreListe = livreListe->suivant;
         }
-        // if (livreListe)
-        // {
-        //     while (livreListe->suivant)
-        //     {
-        //         precedent = livreListe;
-        //         suivant = livreListe->suivant;
-        //         if (strcmp(precedent->auteur, suivant->auteur) == 0)
-        //         {
-        //             if (strcmp(precedent->titre, suivant->titre) == 0)
-        //             {
-        //                 inserer(biblio, precedent->num, precedent->titre, precedent->auteur);
-        //             }
-        //         }
-        //         livreListe = livreListe->suivant;
-        //     }
-        //     if (strcmp(precedent->auteur, livreListe->auteur) == 0)
-        //         if (strcmp(precedent->titre, livreListe->titre) == 0)
-        //             inserer(biblio, livreListe->num, livreListe->titre, livreListe->auteur);
-        // }
     }
     return biblio;
 }

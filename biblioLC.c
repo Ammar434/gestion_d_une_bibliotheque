@@ -37,13 +37,13 @@ Biblio *creer_biblio()
 
 void liberer_biblio(Biblio *b)
 {
-    if (b == NULL)
-    {
-        return;
-    }
     if (b->L == NULL)
     {
         free(b);
+        return;
+    }
+    if (b == NULL)
+    {
         return;
     }
 
@@ -178,7 +178,7 @@ void supprimer_ouvrage(Biblio *b, int num, char *titre, char *auteur)
 
 void fusion(Biblio *b1, Biblio *b2)
 {
-    if ((b1 == NULL) || (b2 == NULL))
+    if ((b1 == NULL) && (b2 == NULL))
     {
         return;
     }
@@ -199,28 +199,29 @@ void fusion(Biblio *b1, Biblio *b2)
     }
     liberer_biblio(b2);
 }
+
 Biblio *recherche_exemplaires(Biblio *b)
 {
-    if (!b)
+    if (b == NULL)
     {
         return NULL;
     }
-    Livre *temp1 = b->L;
-    Livre *temp2 = NULL;
+    Livre *tmp1 = b->L;
+    Livre *tmp2 = NULL;
     Biblio *biblio = creer_biblio();
-    while (temp1)
+    while (tmp1)
     {
-        temp2 = b->L;
-        while (temp2)
+        tmp2 = b->L;
+        while (tmp2)
         {
-            if ((strcmp(temp1->titre, temp2->titre) == 0) && (strcmp(temp1->auteur, temp2->auteur) == 0) && (temp1->num != temp2->num))
+            if ((strcmp(tmp1->titre, tmp2->titre) == 0) && (strcmp(tmp1->auteur, tmp2->auteur) == 0) && (tmp1->num != tmp2->num))
             {
-                inserer_en_tete(biblio, temp1->num, temp1->titre, temp1->auteur);
+                inserer_en_tete(biblio, tmp1->num, tmp1->titre, tmp1->auteur);
                 break;
             }
-            temp2 = temp2->suiv;
+            tmp2 = tmp2->suiv;
         }
-        temp1 = temp1->suiv;
+        tmp1 = tmp1->suiv;
     }
     return biblio;
 }

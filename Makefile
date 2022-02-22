@@ -1,14 +1,20 @@
 CFLAGS = -g -Wall -Wextra -pedantic -Werror
 CC = gcc
 
-PROGRAMS = main_hash main_tests
+PROGRAMS = main_hash main main_jeux_tests_exo1 main_jeux_tests_exo2
 
 
 .PHONY:	all clean
 
 all: $(PROGRAMS)
 
-main_tests: main.o  entreeSortieLC.o biblioLC.o
+main_jeux_tests_exo2: main_jeux_tests_exo2.o  entreeSortieH.o biblioH.o
+	$(CC) -o $@ $(CFLAGS) $^
+
+main_jeux_tests_exo1: main_jeux_tests_exo1.o  entreeSortieLC.o biblioLC.o
+	$(CC) -o $@ $(CFLAGS) $^
+
+main: main.o  entreeSortieLC.o biblioLC.o
 	$(CC) -o $@ $(CFLAGS) $^
 
 entreeSortieLC.o: entreeSortieLC.c
