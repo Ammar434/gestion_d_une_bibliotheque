@@ -279,31 +279,44 @@ BiblioH *recherche_exemplaires_hashtable(BiblioH *b)
     }
     BiblioH *biblio = creer_biblio(1);
     LivreH *livreListe;
-    LivreH *precedent;
-    LivreH *suivant;
+    LivreH *tmp;
 
     for (int i = 0; i < b->m; i++)
     {
         livreListe = *(b->T + i);
-        if (livreListe)
+        while (livreListe)
         {
-            while (livreListe->suivant)
+            tmp = *(b->T + i);
+            while (tmp)
             {
-                precedent = livreListe;
-                suivant = livreListe->suivant;
-                if (strcmp(precedent->auteur, suivant->auteur) == 0)
+                if ((strcmp(livreListe->titre, tmp->titre) == 0) && (strcmp(livreListe->auteur, tmp->auteur) == 0) && (livreListe->num != tmp->num))
                 {
-                    if (strcmp(precedent->titre, suivant->titre) == 0)
-                    {
-                        inserer(biblio, precedent->num, precedent->titre, precedent->auteur);
-                    }
-                }
-                livreListe = livreListe->suivant;
-            }
-            if (strcmp(precedent->auteur, livreListe->auteur) == 0)
-                if (strcmp(precedent->titre, livreListe->titre) == 0)
                     inserer(biblio, livreListe->num, livreListe->titre, livreListe->auteur);
+                    break;
+                }
+                tmp = tmp->suivant;
+            }
+            livreListe = livreListe->suivant;
         }
+        // if (livreListe)
+        // {
+        //     while (livreListe->suivant)
+        //     {
+        //         precedent = livreListe;
+        //         suivant = livreListe->suivant;
+        //         if (strcmp(precedent->auteur, suivant->auteur) == 0)
+        //         {
+        //             if (strcmp(precedent->titre, suivant->titre) == 0)
+        //             {
+        //                 inserer(biblio, precedent->num, precedent->titre, precedent->auteur);
+        //             }
+        //         }
+        //         livreListe = livreListe->suivant;
+        //     }
+        //     if (strcmp(precedent->auteur, livreListe->auteur) == 0)
+        //         if (strcmp(precedent->titre, livreListe->titre) == 0)
+        //             inserer(biblio, livreListe->num, livreListe->titre, livreListe->auteur);
+        // }
     }
     return biblio;
 }

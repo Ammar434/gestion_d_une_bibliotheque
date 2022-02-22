@@ -20,6 +20,12 @@ biblioLC.o: biblioLC.c
 main_hash: mainHash.o  entreeSortieH.o biblioH.o
 	$(CC) -o $@ $(CFLAGS) $^
 
+simulationLC: simulationLC.o entreeSortieLC.o biblioLC.o
+	$(CC) -o $@ $(CFLAGS) $^
+
+simulationH: simulationH.o entreeSortieH.o biblioH.o
+	$(CC) -o $@ $(CFLAGS) $^
+	
 entreeSortieH.o: entreeSortieH.c
 	$(CC) -c $(CFLAGS) entreeSortieH.c 
 
@@ -27,4 +33,4 @@ biblioH.o: biblioH.c
 	$(CC) -c $(CFLAGS) biblioH.c
 
 clean:
-	rm -f *.o *~ $(PROGRAMS)
+	rm -f *.o *~ $(PROGRAMS) simulationLC simulationH
