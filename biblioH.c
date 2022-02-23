@@ -45,7 +45,6 @@ BiblioH *creer_biblio(int m)
     assert(b);
     b->T = (LivreH **)malloc(sizeof(LivreH *) * m);
     assert(b->T);
-
     for (int i = 0; i < m; i++)
     {
         b->T[i] = NULL;

@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wextra -pedantic -Werror
+CFLAGS = -g -Wall -Wextra -pedantic 
 CC = gcc
 
 PROGRAMS = main_hash main main_jeux_tests_exo1 main_jeux_tests_exo2
